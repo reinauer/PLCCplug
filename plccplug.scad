@@ -17,27 +17,6 @@
 //     |___________|  h2
 //
 
-pins = 32;
-
-// no user servicable parts inside
-//
-/*
-if (pins == 20) { a =  8.70; c = 15.00; d = 15.00; b =  8.70; px =  5; py =  5; } else
-if (pins == 28) { a = 11.15; c = 17.40; d = 17.40; b = 11.15; px =  7; py =  7; } else
-if (pins == 32) { a = 13.60; c = 19.90; d = 17.40; b = 11.02; px =  9; py =  7; } else
-
-if (pins == 44) { a = 16.40; c = 22.50; d = 22.50; b = 16.40; px = 11; py = 11; } else
-if (pins == 52) { a = 18.90; c = 25.10; d = 25.10; b = 18.90; px = 13; py = 13; } else
-if (pins == 68) { a = 23.90; c = 30.10; d = 30.10; b = 23.90; px = 17; py = 17; } else
-if (pins == 84) { a = 28.90; c = 35.20; d = 35.20; b = 28.90; px = 21; py = 21; }
-*/
-a = 13.60;
-c = 19.90;
-d = 17.40;
-b = 11.02;
-px =  9;
-py =  7;
-
 
 // distance between 2 pins
 cl = 1.27;
@@ -47,6 +26,33 @@ h1 = 4.45;
 h2 = 1.47;
 // pinwidth=0.3;
 pinwidth=0.4;
+
+/* test build all * /
+translate([0,0,0]) plug(20);
+translate([50,0,0]) plug(28);
+translate([100,0,0]) plug(32);
+translate([0,50,0]) plug(44);
+translate([50,50,0]) plug(52);
+translate([100,50,0]) plug(68);
+translate([150,50,0]) plug(84);
+// */
+
+plug(32);
+
+
+// no user servicable parts inside
+
+module plug(pins)
+{
+    if (pins == 20) { a =  8.70; c = 15.00; d = 15.00; b =  8.70; px =  5; py =  5; plccplug(a,b,c,d,px,py); } else
+    if (pins == 28) { a = 11.15; c = 17.40; d = 17.40; b = 11.15; px =  7; py =  7; plccplug(a,b,c,d,px,py); } else
+    if (pins == 32) { a = 13.60; c = 19.90; d = 17.40; b = 11.02; px =  9; py =  7; plccplug(a,b,c,d,px,py); } else
+
+    if (pins == 44) { a = 16.40; c = 22.50; d = 22.50; b = 16.40; px = 11; py = 11; plccplug(a,b,c,d,px,py); } else
+    if (pins == 52) { a = 18.90; c = 25.10; d = 25.10; b = 18.90; px = 13; py = 13; plccplug(a,b,c,d,px,py); } else
+    if (pins == 68) { a = 23.90; c = 30.10; d = 30.10; b = 23.90; px = 17; py = 17; plccplug(a,b,c,d,px,py); } else
+    if (pins == 84) { a = 28.90; c = 35.20; d = 35.20; b = 28.90; px = 21; py = 21; plccplug(a,b,c,d,px,py); }
+}
 
 // small prism to mark one side of the PLCC
 module corner(l, w, h)
@@ -63,6 +69,8 @@ module pin()
     cube([pinwidth,pinwidth,h1+h2]);
 }
 
+module plccplug(a,b,c,d,px,py)
+{
     // all pins. p == pins
     p  = 2*py + 2*px;
     // space to the left and right of the socket part,
@@ -124,4 +132,5 @@ difference()
             }
         }
     }
+}
 }
