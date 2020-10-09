@@ -59,11 +59,11 @@ pinwidth=0.4;
 // small prism to mark one side of the PLCC
 module corner(l, w, h)
 {
-  polyhedron(
+    polyhedron(
                points=[[0,0,0], [l,0,0], [0,w,0], 
                        [0,0,h], [l,0,h], [0,w,h]],
                faces=[[0,1,2],[5,4,3],[1,4,5,2],[0,3,4,1],[0,2,5,3]]
-               );
+              );
 }
 
 module pin()
