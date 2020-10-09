@@ -38,13 +38,6 @@ b = 11.02;
 px =  9;
 py =  7;
 
-// all pins. p == pins
-p  = 2*py + 2*px;
-// space to the left and right of the socket part,
-// assuming the plug sits right in the middle of
-// the construct.
-dy=(c-a) / 2;
-dx=(d-b) / 2;
 
 // distance between 2 pins
 cl = 1.27;
@@ -52,7 +45,6 @@ cl = 1.27;
 h1 = 4.45;
 // height of the top plate
 h2 = 1.47;
-
 // pinwidth=0.3;
 pinwidth=0.4;
 
@@ -71,6 +63,13 @@ module pin()
     cube([pinwidth,pinwidth,h1+h2]);
 }
 
+    // all pins. p == pins
+    p  = 2*py + 2*px;
+    // space to the left and right of the socket part,
+    // assuming the plug sits right in the middle of
+    // the construct.
+    dy=(c-a) / 2;
+    dx=(d-b) / 2;
 
 difference()
 {
