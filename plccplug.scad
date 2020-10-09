@@ -71,7 +71,6 @@ module pin()
     cube([pinwidth,pinwidth,h1+h2]);
 }
 
-//translate ([20,20,20]) corner(3,3,3);
 
 difference()
 {
