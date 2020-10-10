@@ -70,7 +70,18 @@ module corner(l, w, h)
 
 module pin()
 {
-    cube([pinwidth,pinwidth,h1+h2]);
+    // This was just a straight pin, like this:
+    //   cube([pinwidth,pinwidth,h1+h2]);
+    // But then a Prusa i3 MK3s can't make holes that small
+    // on the top plate. So split the pin hole up in a tighter
+    // section on the plug to keep the pin header in place, and
+    // a wider one to allow printing this with your typical 3d
+    // printer
+    translate([-0.1,-0.1,-0.1])
+    cube([pinwidth + 0.2,pinwidth + 0.2,h2 + 0.1]);
+
+    translate([0,0,h2])
+    cube([pinwidth,pinwidth,h1+0.1]);
 }
 
 module plccplug(a,b,c,d,px,py)
@@ -95,6 +106,11 @@ module plccplug(a,b,c,d,px,py)
                     // cut a sqare hole in bottom plate
                     translate([dx*.5, dy*.5, 0])
                         cube([a - dx, b - dy, h1]);
+                    // little notches on the hillside
+                    translate([0.8,b*0.4,h1-0.2])
+                        color("red") cube([a-1.6,b*0.2,0.2]);
+                    translate([a*0.4,0.8,h1-0.2])
+                        color("red") cube([a*0.2,b-1.6,0.2]);
                 }
             }
 
