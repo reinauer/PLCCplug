@@ -1,4 +1,7 @@
 // PLCC plug model
+// (C) 2020 Stefan Reinauer
+// SPDX-License-Identifier: BSD-2-Clause
+//
 // OpenSCAD
 //
 //     /------------+
@@ -11,7 +14,7 @@
 //    |             |
 //    +-------------+
 //            C
-//          
+//
 //    =============== h1
 //     |           |
 //     |___________|  h2
@@ -135,20 +138,20 @@ module plccplug(a,b,c,d,px,py)
                     pin();
                 }
             }
-  
+
             color("green") for( col  = [0: py-1 ] ) {
                 translate( [a-pinwidth, y_shift + (cl * col), 0] ) {
                     pin();
                 }
             }
-  
+
             x_shift = pinwidth + (b - (py * cl)) / 2;
             color("blue") for( row  = [0: px-1 ] ) {
                 translate( [x_shift + (cl * row), 0, 0] ) {
                     pin();
                 }
             }
-  
+
             color ("yellow") for( row  = [0: px-1 ] ) {
                 translate( [x_shift + (cl * row), b-pinwidth, 0]) {
                     pin();
