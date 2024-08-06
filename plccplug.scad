@@ -34,18 +34,20 @@ pinwidth=0.4;
 edge_top = 3;
 edge_bottom = 1.5;
 
-/* test build all * /
-translate([0,0,0]) plug(20);
-translate([50,0,0]) plug(28);
-translate([100,0,0]) plug(32);
-translate([0,50,0]) plug(44);
-translate([50,50,0]) plug(52);
-translate([100,50,0]) plug(68);
-translate([150,50,0]) plug(84);
-// */
+/* test build all */
 
-plug(32);
 
+if (is_undef(output_pins)) {
+  translate([0,0,0]) plug(20);
+  translate([50,0,0]) plug(28);
+  translate([100,0,0]) plug(32);
+  translate([0,50,0]) plug(44);
+  translate([50,50,0]) plug(52);
+  translate([100,50,0]) plug(68);
+  translate([150,50,0]) plug(84);
+} else {
+  translate([0,0,0]) plug(output_pins);
+}
 
 // no user servicable parts inside
 
