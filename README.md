@@ -39,12 +39,14 @@ I also did some test prints in black resin at JLCPCB.
 <a href="images/plug84angle.jpg">
 <img src="images/plug84angle.jpg" width="512" height="288">
 </a>
+<br />
 Black resin print
 <br />
 <br />
 <a href="images/plug84nylon.jpg">
 <img src="images/plug84nylon.jpg" width="512" height="288">
 </a>
+<br />
 Nylon print
 <br />
 
@@ -54,12 +56,14 @@ Nylon print
 <a href="images/plug84socketfit.jpg">
 <img src="images/plug84socketfit.jpg" width="512" height="512">
 </a>
+<br />
 Socket fitting
 <br />
 <a href="images/plug84pcbfit.jpg">
-<img src="images/plug84pcbfit.jpg" width="512" height="512">
+<img src="images/plug84pcbfit.jpg" width="512">
 </a>
-Socket fitting
+<br />
+PCB fitting
 <br />
 
 
