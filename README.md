@@ -59,6 +59,7 @@ Nylon print
 <br />
 Socket fitting
 <br />
+<br />
 <a href="images/plug84pcbfit.jpg">
 <img src="images/plug84pcbfit.jpg" width="512">
 </a>
