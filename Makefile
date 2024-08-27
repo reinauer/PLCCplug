@@ -1,6 +1,6 @@
 # Makefile for PLCC plugs
 
-PINS=20 28 32 44 52 68 84
+PINS?=20 28 32 44 52 68 84
 STLS=$(foreach pin,$(PINS),stl/plcc$(pin).stl) stl/plcc_all.stl
 
 all: $(STLS)
