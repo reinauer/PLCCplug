@@ -53,6 +53,7 @@ if (is_undef(output_pins)) {
 // Set the dimensions for the plug to be rendered and call render function
 module plug(pins)
 {
+    echo (str("Rendering a ", pins, " pin PLCC plug"));
     if (pins == 20) { a =  8.70; c = 15.00; d = 15.00; b =  8.70; px =  5; py =  5; plccplug(a,b,c,d,px,py); } else
     if (pins == 28) { a = 11.15; c = 17.40; d = 17.40; b = 11.15; px =  7; py =  7; plccplug(a,b,c,d,px,py); } else
     if (pins == 32) { a = 13.60; c = 19.90; d = 17.40; b = 11.02; px =  9; py =  7; plccplug(a,b,c,d,px,py); } else
