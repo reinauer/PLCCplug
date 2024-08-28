@@ -24,16 +24,22 @@
 // distance between 2 pins
 cl = 1.27;
 // height of the bottom plate / plug
-h1 = 4.3;
+h1 = 4.3; // 4.45;
 // height of the top plate
-h2 = 1.2;
-// pinwidth=0.3;
+h2 = 1.2; // 1.47;
+
+// 1.27mm pitch pins are 0.4mm, 2.54mm pitch pins are 0.64mm
+//pinwidth=0.64;
 pinwidth=0.4;
 
-// edge
+// edge - dimensions of the cutout triangle
 edge_top = 3;
 edge_bottom = 1.5;
 
+// FDM printers with a very small nozzle size (0.2mm) might work
+// So far resin and nylon prints have shown promising success. If
+// you don't have a resin printer, you probably want to set this to 1:
+clumsy_printer = 0;
 
 /* test build all */
 
@@ -86,11 +92,18 @@ module pin()
     // section on the plug to keep the pin header in place, and
     // a wider one to allow printing this with your typical 3d
     // printer
-    translate([-0.1,-0.1,-0.1])
-    cube([pinwidth + 0.2,pinwidth + 0.2,h2 + 0.1]);
 
-    translate([0,0,h2])
-    cube([pinwidth,pinwidth,h1+0.1]);
+    if (clumsy_printer != 0) {
+        echo ("Workaround for FDM printers");
+        translate([-0.1,-0.1,-0.1])
+          cube([pinwidth + 0.2,pinwidth + 0.2,h2 + 0.1]);
+
+        translate([0,0,h2])
+          cube([pinwidth,pinwidth,h1+0.1]);
+    } else {
+        //translate([0,0,0])
+          cube([pinwidth,pinwidth,h1+h2+0.1]);
+    }
 }
 
 // Render a PLCC plug
