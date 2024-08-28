@@ -34,8 +34,8 @@ pinwidth=0.4;
 edge_top = 3;
 edge_bottom = 1.5;
 
-/* test build all */
 
+/* test build all */
 
 if (is_undef(output_pins)) {
   translate([0,0,0]) plug(20);
@@ -49,8 +49,8 @@ if (is_undef(output_pins)) {
   translate([0,0,0]) plug(output_pins);
 }
 
-// no user servicable parts inside
-
+// No user servicable parts inside
+// Set the dimensions for the plug to be rendered and call render function
 module plug(pins)
 {
     if (pins == 20) { a =  8.70; c = 15.00; d = 15.00; b =  8.70; px =  5; py =  5; plccplug(a,b,c,d,px,py); } else
@@ -63,7 +63,10 @@ module plug(pins)
     if (pins == 84) { a = 28.90; c = 35.20; d = 35.20; b = 28.90; px = 21; py = 21; plccplug(a,b,c,d,px,py); }
 }
 
-// small prism to mark one side of the PLCC
+// small prism to mark one side of the PLCC (cutout triangle)
+//  l: length
+//  w: width
+//  h: height (top plate or bottom plate)
 module corner(l, w, h)
 {
     polyhedron(
@@ -89,6 +92,10 @@ module pin()
     cube([pinwidth,pinwidth,h1+0.1]);
 }
 
+// Render a PLCC plug
+//  A,B,C,D: dimensions of top plate and bottom plate
+//  px: pins in x dimension
+//  py: pins in y dimension
 module plccplug(a,b,c,d,px,py)
 {
     // all pins. p == pins
