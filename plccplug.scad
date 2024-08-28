@@ -24,9 +24,9 @@
 // distance between 2 pins
 cl = 1.27;
 // height of the bottom plate / plug
-h1 = 4.45;
+h1 = 4.3;
 // height of the top plate
-h2 = 1.47;
+h2 = 1.2;
 // pinwidth=0.3;
 pinwidth=0.4;
 
