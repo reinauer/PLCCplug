@@ -118,6 +118,8 @@ module plccplug(a,b,c,d,px,py)
     // the construct.
     dy=(c-a) / 2;
     dx=(d-b) / 2;
+    // Thickness of the bottom plate walls in mm
+    thickness=1.7;
 
     difference()
     {
@@ -129,8 +131,8 @@ module plccplug(a,b,c,d,px,py)
                     translate([a-edge_bottom,0,0])
                         corner (l=edge_bottom, w=edge_bottom, h=h1);
                     // cut a sqare hole in bottom plate
-                    translate([dx*.5, dy*.5, 0])
-                        cube([a - dx, b - dy, h1]);
+                    translate ([thickness, thickness, 0])
+                        cube ([a - 2*thickness, b - 2*thickness, h1]);
                     // little notches on the hillside
                     translate([0.8,b*0.4,h1-0.2])
                         color("red") cube([a-1.6,b*0.2,0.2]);
