@@ -93,16 +93,15 @@ module pin()
     // a wider one to allow printing this with your typical 3d
     // printer
 
-    if (clumsy_printer != 0) {
+    if (clumsy_printer) {
         echo ("Workaround for FDM printers");
         translate([-0.1,-0.1,-0.1])
-          cube([pinwidth + 0.2,pinwidth + 0.2,h2 + 0.1]);
+          cube([pinwidth + 0.2,pinwidth + 0.2,h2]);
 
         translate([0,0,h2])
-          cube([pinwidth,pinwidth,h1+0.1]);
+          cube([pinwidth,pinwidth,h1]);
     } else {
-        //translate([0,0,0])
-          cube([pinwidth,pinwidth,h1+h2+0.1]);
+        cube([pinwidth,pinwidth,h1+h2]);
     }
 }
 
