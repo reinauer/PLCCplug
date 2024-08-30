@@ -128,6 +128,7 @@ module plccplug(a,b,c,d,px,py)
             translate([dx,dy,h2]) {
                 difference() {
                     cube([a,b,h1]);
+                    // Cut off one corner
                     translate([a-edge_bottom,0,0])
                         corner (l=edge_bottom, w=edge_bottom, h=h1);
                     // cut a sqare hole in bottom plate
