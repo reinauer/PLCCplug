@@ -39,7 +39,7 @@ edge_bottom = 1.5;
 // FDM printers with a very small nozzle size (0.2mm) might work
 // So far resin and nylon prints have shown promising success. If
 // you don't have a resin printer, you probably want to set this to 1:
-clumsy_printer = 0;
+clumsy_printer = 1;
 
 /* test build all */
 
@@ -92,17 +92,12 @@ module pin()
     // section on the plug to keep the pin header in place, and
     // a wider one to allow printing this with your typical 3d
     // printer
+    pin_tolerance = clumsy_printer ? 0.1 : 0;
+    translate([-(pin_tolerance/2),-(pin_tolerance/2),0])
+      cube([pinwidth + (pin_tolerance),pinwidth + (pin_tolerance),h2]);
 
-    if (clumsy_printer) {
-        echo ("Workaround for FDM printers");
-        translate([-0.1,-0.1,-0.1])
-          cube([pinwidth + 0.2,pinwidth + 0.2,h2]);
-
-        translate([0,0,h2])
-          cube([pinwidth,pinwidth,h1]);
-    } else {
-        cube([pinwidth,pinwidth,h1+h2]);
-    }
+    translate([0,0,h2])
+      cube([pinwidth,pinwidth,h1]);
 }
 
 // Render a PLCC plug
