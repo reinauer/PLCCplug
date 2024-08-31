@@ -175,27 +175,30 @@ module plccplug(a,b,c,d,px,py)
         translate([dx,dy,0])  {
             /* pin holes */
             y_shift = pinwidth + (a - (px * cl)) / 2;
+            // recess pins slightly
+            recess = pinwidth/2;
+
             color("purple") for( col  = [0: py-1 ] ) {
-                translate( [0, y_shift + (cl * col), 0] ) {
+                translate( [-recess, y_shift + (cl * col), 0] ) {
                     pin();
                 }
             }
 
             color("green") for( col  = [0: py-1 ] ) {
-                translate( [a-pinwidth, y_shift + (cl * col), 0] ) {
+                translate( [a-pinwidth+recess, y_shift + (cl * col), 0] ) {
                     pin();
                 }
             }
 
             x_shift = pinwidth + (b - (py * cl)) / 2;
             color("blue") for( row  = [0: px-1 ] ) {
-                translate( [x_shift + (cl * row), 0, 0] ) {
+                translate( [x_shift + (cl * row), -recess, 0] ) {
                     pin();
                 }
             }
 
             color ("yellow") for( row  = [0: px-1 ] ) {
-                translate( [x_shift + (cl * row), b-pinwidth, 0]) {
+                translate( [x_shift + (cl * row), b-pinwidth+recess, 0]) {
                     pin();
                 }
             }
