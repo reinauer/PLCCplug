@@ -120,6 +120,8 @@ module plccplug(a,b,c,d,px,py)
     dx=(d-b) / 2;
     // Thickness of the bottom plate walls in mm
     thickness=1.7;
+    // width of the airgaps in mm (0 to disable)
+    airgaps = (a < 15.0) ? 0 : 1;
 
     difference()
     {
@@ -151,6 +153,21 @@ module plccplug(a,b,c,d,px,py)
                     // cut a cylinder in top plate
                     translate([c / 2, d / 2, 0])
                         cylinder (h = h2, r=2, $fn=100);
+                    // fancy airgaps
+                    if (airgaps) {
+                        // 2/4
+                        translate([c*0.25,thickness+dy,0])
+                            color("red") cube([c/2,airgaps,h2]);
+                        // 4/4
+                        translate([c*0.25,d-(thickness+dy+airgaps),0])
+                            color("red") cube([c/2,airgaps,h2]);
+                        // 3/4
+                        translate([dx + thickness,d*0.25,0])
+                            color("red") cube([airgaps,d/2,h2]);
+                        // 1/4 (Pin 1-)
+                        translate([dx + a - thickness - airgaps,d*0.25,0])
+                            color("red") cube([airgaps,d/2,h2]);
+                    }
                 }
             }
         }
