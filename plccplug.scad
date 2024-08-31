@@ -137,10 +137,10 @@ module plccplug(a,b,c,d,px,py)
                     translate ([thickness, thickness, 0])
                         cube ([a - 2*thickness, b - 2*thickness, h1]);
                     // little notches on the hillside
-                    translate([0.8,b*0.4,h1-0.2])
-                        color("red") cube([a-1.6,b*0.2,0.2]);
-                    translate([a*0.4,0.8,h1-0.2])
-                        color("red") cube([a*0.2,b-1.6,0.2]);
+                    translate([0.8,b*0.43,h1-0.2])
+                        color("red") cube([a-1.6,b*0.14,0.2]);
+                    translate([a*0.43,0.8,h1-0.2])
+                        color("red") cube([a*0.14,b-1.6,0.2]);
                 }
             }
 
