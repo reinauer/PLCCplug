@@ -1,94 +1,79 @@
 /* KiCAD footprint generator for APW9328 PLCC plugs.
  * And maybe other stuff in the future.
  * GPL-2
- * (C) 2021 Stefan Reinauer <stefan.reinauer@coreboot.org>
+ * (C) 2021-2025 Stefan Reinauer <stefan.reinauer@coreboot.org>
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <getopt.h>
 #include <float.h>
 
-#define COMPONENT_PINS 28
+// Component pins will be set at runtime
+static int component_pins = 0;
+
+// Component configuration structure
+typedef struct {
+	char *name;
+	int pins_x;
+	int pins_y;
+	double pitch;
+	double a;
+	double b;
+	double c;
+	double d;
+	double pad_width;
+} component_config_t;
 
 // From the datasheet:
 
-#if COMPONENT_PINS == 84
-#define COMPONENT_NAME "APW9328"
-#define COMPONENT_PINS_X 21
-#define COMPONENT_PINS_Y 21
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 36.6
-#define COMPONENT_B 27.5
-#define COMPONENT_C 36.6
-#define COMPONENT_D 27.5
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 68
-#define COMPONENT_NAME "APW9327"
-#define COMPONENT_PINS_X 17
-#define COMPONENT_PINS_Y 17
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 30.10
-#define COMPONENT_B 23.9
-#define COMPONENT_C 30.10
-#define COMPONENT_D 23.9
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 52
-#define COMPONENT_NAME "APW9326"
-#define COMPONENT_PINS_X 13
-#define COMPONENT_PINS_Y 13
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 25.10
-#define COMPONENT_B 18.9
-#define COMPONENT_C 25.10
-#define COMPONENT_D 18.9
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 44
-#define COMPONENT_NAME "APW9325"
-#define COMPONENT_PINS_X 11
-#define COMPONENT_PINS_Y 11
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 22.50
-#define COMPONENT_B 16.40
-#define COMPONENT_C 22.50
-#define COMPONENT_D 16.40
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 32
-#define COMPONENT_NAME "APW9324"
-#define COMPONENT_PINS_X 7
-#define COMPONENT_PINS_Y 9
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 17.40
-#define COMPONENT_B 11.15
-#define COMPONENT_C 19.90
-#define COMPONENT_D 13.60
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 28
-#define COMPONENT_NAME "APW9323"
-#define COMPONENT_PINS_X 7
-#define COMPONENT_PINS_Y 7
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 17.40
-#define COMPONENT_B 11.15
-#define COMPONENT_C 17.40
-#define COMPONENT_D 11.15
-#define COMPONENT_PAD_WIDTH 0.9
-
-#elif COMPONENT_PINS == 20
-#define COMPONENT_NAME "APW9322"
-#define COMPONENT_PINS_X 5
-#define COMPONENT_PINS_Y 5
-#define COMPONENT_PITCH 1.27
-#define COMPONENT_A 15.00
-#define COMPONENT_B  8.70
-#define COMPONENT_C 15.00
-#define COMPONENT_D  8.70
-#define COMPONENT_PAD_WIDTH 0.9
-
+#define ADAPTPLUS
+#undef  WINSLOW
+static component_config_t configs[] = {
+#ifdef ADAPTPLUS
+	{"APW9322",  5,  5, 1.27, 15.00,  8.70, 15.00,  8.70, 0.9}, // 20 pins
+	{"APW9323",  7,  7, 1.27, 17.40, 11.15, 17.40, 11.15, 0.9}, // 28 pins
+	{"APW9324",  7,  9, 1.27, 17.40, 11.15, 19.90, 13.60, 0.9}, // 32 pins
+	{"APW9325", 11, 11, 1.27, 22.50, 16.40, 22.50, 16.40, 0.9}, // 44 pins
+	{"APW9326", 13, 13, 1.27, 25.10, 18.90, 25.10, 18.90, 0.9}, // 52 pins
+	{"APW9327", 17, 17, 1.27, 30.10, 23.90, 30.10, 23.90, 0.9}, // 68 pins
+	{"APW9328", 21, 21, 1.27, 36.60, 27.50, 36.60, 27.50, 0.9}, // 84 pins
 #endif
+#ifdef WINSLOW
+	{"W9322",  5,  5, 1.27, 15.00,  8.70, 15.00,  8.70, 0.9}, // 20 pins
+	{"W9323",  7,  7, 1.27, 17.40, 11.15, 17.40, 11.15, 0.9}, // 28 pins
+	{"W9324",  7,  9, 1.27, 17.40, 11.02, 19.90, 13.60, 0.9}, // 32 pins
+	{"W9325", 11, 11, 1.27, 22.50, 16.40, 22.50, 16.40, 0.9}, // 44 pins
+	{"W9326", 13, 13, 1.27, 25.10, 18.90, 25.10, 18.90, 0.9}, // 52 pins
+	{"W9327", 17, 17, 1.27, 30.10, 23.90, 30.10, 23.90, 0.9}, // 68 pins
+	{"W9328", 21, 21, 1.27, 35.20, 28.90, 35.20, 28.90, 0.9}, // 84 pins
+#endif
+};
+
+static component_config_t *current_config = NULL;
+
+static component_config_t* get_config_for_pins(int pins)
+{
+	int pin_counts[] = {20, 28, 32, 44, 52, 68, 84};
+	for (int i = 0; i < 7; i++) {
+		if (pin_counts[i] == pins) {
+			return &configs[i];
+		}
+	}
+	return NULL;
+}
+
+#define COMPONENT_PINS component_pins
+#define COMPONENT_NAME current_config->name
+#define COMPONENT_PINS_X current_config->pins_x
+#define COMPONENT_PINS_Y current_config->pins_y
+#define COMPONENT_PITCH current_config->pitch
+#define COMPONENT_A current_config->a
+#define COMPONENT_B current_config->b
+#define COMPONENT_C current_config->c
+#define COMPONENT_D current_config->d
+#define COMPONENT_PAD_WIDTH current_config->pad_width
 
 // Your preference
 
@@ -135,7 +120,7 @@ static void kicad_mod_timestamp(void)
 	 * my copy of KiCAD 6.0rc1 added timestamps for some pads. Not
 	 * sure what these are actually good for. Let's assume zero is
 	 * sufficient */
-	printf ("    (tstamp 00000000-0000-0000-0000-000000000000)\n");
+	printf ("(tstamp 00000000-0000-0000-0000-000000000000)");
 }
 
 static void kicad_mod_texts(double height)
@@ -146,21 +131,24 @@ static void kicad_mod_texts(double height)
 	printf("  (fp_text reference \"IC2\" (at 0 %.3f -180) (layer \"F.SilkS\")\n"
 		"    (effects (font (size %.3f %.3f) (thickness 0.15)))\n",
 		-offset, font_height, font_height);
+	printf("    ");
 	kicad_mod_timestamp();
-	printf("  )\n");
+	printf("\n  )\n");
 
 
 	printf("  (fp_text value \"%s\" (at 0 %.3f -180) (layer \"F.Fab\")\n"
 		"    (effects (font (size %.3f %.3f) (thickness 0.15)))\n",
 		COMPONENT_NAME, offset + .5, font_height, font_height);
+	printf("    ");
 	kicad_mod_timestamp();
-	printf("  )\n");
+	printf("\n  )\n");
 
 	printf("  (fp_text user \"${REFERENCE}\" (at 0 0.525 -180) (layer \"F.Fab\")\n"
 		"    (effects (font (size %.3f %.3f) (thickness 0.15)))\n",
 		font_height, font_height);
+	printf("    ");
 	kicad_mod_timestamp();
-	printf("  )\n");
+	printf("\n  )\n");
 }
 
 static void kicad_mod_silkscreen(char *silkscreen)
@@ -400,21 +388,89 @@ static void kicad_mod_pads(int throughhole)
 	}
 }
 
-int main(void)
+static void print_usage(const char *prog_name)
 {
-	kicad_mod_header();
+	printf("Usage: %s -p|--pins PINS [-o|--outfile FILE]\n", prog_name);
+	printf("Generate KiCAD footprints for APW932x PLCC plugs\n\n");
+	printf("Options:\n");
+	printf("  -p, --pins PINS      Number of pins (20, 28, 32, 44, 52, 68, 84)\n");
+	printf("  -o, --outfile FILE   Output file (default: stdout)\n");
+	printf("  -h, --help          Show this help message\n");
+}
 
+int main(int argc, char *argv[])
+{
+	int opt;
+	char *outfile = NULL;
+	FILE *output = stdout;
+	int pins_specified = 0;
+
+	static struct option long_options[] = {
+		{"pins", required_argument, 0, 'p'},
+		{"outfile", required_argument, 0, 'o'},
+		{"help", no_argument, 0, 'h'},
+		{0, 0, 0, 0}
+	};
+
+	while ((opt = getopt_long(argc, argv, "p:o:h", long_options, NULL)) != -1) {
+		switch (opt) {
+		case 'p':
+			component_pins = atoi(optarg);
+			current_config = get_config_for_pins(component_pins);
+			if (!current_config) {
+				fprintf(stderr, "Error: Unsupported pin count %d\n", component_pins);
+				fprintf(stderr, "Supported pin counts: 20, 28, 32, 44, 52, 68, 84\n");
+				return 1;
+			}
+			pins_specified = 1;
+			break;
+		case 'o':
+			outfile = optarg;
+			break;
+		case 'h':
+			print_usage(argv[0]);
+			return 0;
+		default:
+			print_usage(argv[0]);
+			return 1;
+		}
+	}
+
+	if (!pins_specified) {
+		fprintf(stderr, "Error: --pins option is required\n");
+		print_usage(argv[0]);
+		return 1;
+	}
+
+	if (outfile) {
+		output = fopen(outfile, "w");
+		if (!output) {
+			perror("Error opening output file");
+			return 1;
+		}
+	}
+
+	// Redirect printf to the output file
+	FILE *old_stdout = stdout;
+	stdout = output;
+
+	kicad_mod_header();
 	kicad_mod_texts(COMPONENT_A);
 	kicad_mod_silkscreen("F.SilkS");
 	kicad_mod_silkscreen("B.SilkS");
 	kicad_mod_courtyard();
 	kicad_mod_fabrication();
 	kicad_mod_pads(COMPONENT_THROUGHHOLE);
-	// FIXME probably not needed because there is no
-	// correct 3d model for this.
 	kicad_mod_model();
-
 	kicad_mod_footer();
+
+	// Restore stdout
+	stdout = old_stdout;
+
+	if (outfile && output != stdout) {
+		fclose(output);
+	}
+
 	return 0;
 }
 
