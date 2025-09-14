@@ -7,9 +7,10 @@
 #include <stdio.h>
 #include <float.h>
 
-// From the datasheet:
-// TODO add the other components
 #define COMPONENT_PINS 28
+
+// From the datasheet:
+
 #if COMPONENT_PINS == 84
 #define COMPONENT_NAME "APW9328"
 #define COMPONENT_PINS_X 21
@@ -20,16 +21,73 @@
 #define COMPONENT_C 36.6
 #define COMPONENT_D 27.5
 #define COMPONENT_PAD_WIDTH 0.9
+
+#elif COMPONENT_PINS == 68
+#define COMPONENT_NAME "APW9327"
+#define COMPONENT_PINS_X 17
+#define COMPONENT_PINS_Y 17
+#define COMPONENT_PITCH 1.27
+#define COMPONENT_A 30.10
+#define COMPONENT_B 23.9
+#define COMPONENT_C 30.10
+#define COMPONENT_D 23.9
+#define COMPONENT_PAD_WIDTH 0.9
+
+#elif COMPONENT_PINS == 52
+#define COMPONENT_NAME "APW9326"
+#define COMPONENT_PINS_X 13
+#define COMPONENT_PINS_Y 13
+#define COMPONENT_PITCH 1.27
+#define COMPONENT_A 25.10
+#define COMPONENT_B 18.9
+#define COMPONENT_C 25.10
+#define COMPONENT_D 18.9
+#define COMPONENT_PAD_WIDTH 0.9
+
+#elif COMPONENT_PINS == 44
+#define COMPONENT_NAME "APW9325"
+#define COMPONENT_PINS_X 11
+#define COMPONENT_PINS_Y 11
+#define COMPONENT_PITCH 1.27
+#define COMPONENT_A 22.50
+#define COMPONENT_B 16.40
+#define COMPONENT_C 22.50
+#define COMPONENT_D 16.40
+#define COMPONENT_PAD_WIDTH 0.9
+
+#elif COMPONENT_PINS == 32
+#define COMPONENT_NAME "APW9324"
+#define COMPONENT_PINS_X 7
+#define COMPONENT_PINS_Y 9
+#define COMPONENT_PITCH 1.27
+#define COMPONENT_A 17.40
+#define COMPONENT_B 11.15
+#define COMPONENT_C 19.90
+#define COMPONENT_D 13.60
+#define COMPONENT_PAD_WIDTH 0.9
+
 #elif COMPONENT_PINS == 28
 #define COMPONENT_NAME "APW9323"
 #define COMPONENT_PINS_X 7
 #define COMPONENT_PINS_Y 7
 #define COMPONENT_PITCH 1.27
-#define COMPONENT_A 17.4
+#define COMPONENT_A 17.40
 #define COMPONENT_B 11.15
-#define COMPONENT_C 17.4
+#define COMPONENT_C 17.40
 #define COMPONENT_D 11.15
 #define COMPONENT_PAD_WIDTH 0.9
+
+#elif COMPONENT_PINS == 20
+#define COMPONENT_NAME "APW9322"
+#define COMPONENT_PINS_X 5
+#define COMPONENT_PINS_Y 5
+#define COMPONENT_PITCH 1.27
+#define COMPONENT_A 15.00
+#define COMPONENT_B  8.70
+#define COMPONENT_C 15.00
+#define COMPONENT_D  8.70
+#define COMPONENT_PAD_WIDTH 0.9
+
 #endif
 
 // Your preference
