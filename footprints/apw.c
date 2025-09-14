@@ -13,6 +13,10 @@
 // Component pins will be set at runtime
 static int component_pins = 0;
 
+// Configuration options (will be set at runtime)
+static int component_throughhole = 1;  // Default: double-sided pads (throughhole with vias)
+static int component_via_outside = 1;  // Default: vias on the outside
+
 // Component configuration structure
 typedef struct {
 	char *name;
@@ -75,17 +79,9 @@ static component_config_t* get_config_for_pins(int pins)
 #define COMPONENT_D current_config->d
 #define COMPONENT_PAD_WIDTH current_config->pad_width
 
-// Your preference
-
-// Pad placement
-// 0: Pads only on one layer
-// 1: Pads on front and back layer, connected together with a via
-#define COMPONENT_THROUGHHOLE 1
-
-// Via placement
-// 0: Via on the inside of the footprint
-// 1: Via on the outside of the footprint
-#define COMPONENT_VIA_OUTSIDE 1
+// Configuration macros (now use runtime variables)
+#define COMPONENT_THROUGHHOLE component_throughhole
+#define COMPONENT_VIA_OUTSIDE component_via_outside
 
 // Pin numbering:
 //
@@ -390,12 +386,16 @@ static void kicad_mod_pads(int throughhole)
 
 static void print_usage(const char *prog_name)
 {
-	printf("Usage: %s -p|--pins PINS [-o|--outfile FILE]\n", prog_name);
+	printf("Usage: %s -p|--pins PINS [-o|--outfile FILE] [--double-sided] [--via-outside]\n", prog_name);
 	printf("Generate KiCAD footprints for APW932x PLCC plugs\n\n");
 	printf("Options:\n");
-	printf("  -p, --pins PINS      Number of pins (20, 28, 32, 44, 52, 68, 84)\n");
-	printf("  -o, --outfile FILE   Output file (default: stdout)\n");
-	printf("  -h, --help          Show this help message\n");
+	printf("  -p, --pins PINS        Number of pins (20, 28, 32, 44, 52, 68, 84)\n");
+	printf("  -o, --outfile FILE     Output file (default: stdout)\n");
+	printf("  -d, --double-sided     Use double-sided pads with vias (default: enabled)\n");
+	printf("  -s, --single-sided     Use single-sided SMD pads only\n");
+	printf("  -v, --via-outside      Place vias outside the footprint (default: enabled)\n");
+	printf("  --via-inside           Place vias inside the footprint\n");
+	printf("  -h, --help            Show this help message\n");
 }
 
 int main(int argc, char *argv[])
@@ -408,11 +408,15 @@ int main(int argc, char *argv[])
 	static struct option long_options[] = {
 		{"pins", required_argument, 0, 'p'},
 		{"outfile", required_argument, 0, 'o'},
+		{"double-sided", no_argument, 0, 'd'},
+		{"single-sided", no_argument, 0, 's'},
+		{"via-outside", no_argument, 0, 'v'},
+		{"via-inside", no_argument, 0, 'V'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0}
 	};
 
-	while ((opt = getopt_long(argc, argv, "p:o:h", long_options, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "p:o:dsvVh", long_options, NULL)) != -1) {
 		switch (opt) {
 		case 'p':
 			component_pins = atoi(optarg);
@@ -426,6 +430,18 @@ int main(int argc, char *argv[])
 			break;
 		case 'o':
 			outfile = optarg;
+			break;
+		case 'd':
+			component_throughhole = 1;
+			break;
+		case 's':
+			component_throughhole = 0;
+			break;
+		case 'v':
+			component_via_outside = 1;
+			break;
+		case 'V':
+			component_via_outside = 0;
 			break;
 		case 'h':
 			print_usage(argv[0]);
