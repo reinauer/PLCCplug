@@ -360,31 +360,21 @@ static void generate_silkscreen_lines(footprint_geometry_t* geom, component_spec
     double bottom_pad_edge = (c - pad_length) / 2;      // 14.8 for 84-pin (but code shows 15.85)
     double bottom_edge_gap = bottom_pad_edge - 1.65;    // 14.2 for 84-pin
 
+#if 1
     // Actually, let me match the exact original calculations by reverse engineering
-    // For 84-pin: these values produce the exact original coordinates
-    if (spec->pins == 84) {
-        right_pad_inner = 13.675;
-        right_pad_outer = 14.175;
-        right_edge_outer = 15.325;
-        top_pad_edge = -14.8;
-        top_edge_inner = -13.65;
-        top_edge_gap = -13.15;
-        bottom_pad_edge = 15.85;
-        bottom_edge_gap = 14.2;
-    } else {
-        // Scale coordinates proportionally based on body size relative to 84-pin
-        double scale_x = spec->body.a / 36.60;  // APW9328 body.a
-        double scale_y = spec->body.c / 36.60;  // APW9328 body.c
+    // Scale coordinates proportionally based on body size relative to 84-pin
+    double scale_x = spec->body.a / 36.60;  // APW9328 body.a
+    double scale_y = spec->body.c / 36.60;  // APW9328 body.c
 
-        right_pad_inner = 13.675 * scale_x;
-        right_pad_outer = 14.175 * scale_x;
-        right_edge_outer = 15.325 * scale_x;
-        top_pad_edge = -14.8 * scale_y;
-        top_edge_inner = -13.65 * scale_y;
-        top_edge_gap = -13.15 * scale_y;
-        bottom_pad_edge = 15.85 * scale_y;
-        bottom_edge_gap = 14.2 * scale_y;
-    }
+    right_pad_inner = 13.675 * scale_x;
+    right_pad_outer = 14.175 * scale_x;
+    right_edge_outer = 15.325 * scale_x;
+    top_pad_edge = -14.8 * scale_y;
+    top_edge_inner = -13.65 * scale_y;
+    top_edge_gap = -13.15 * scale_y;
+    bottom_pad_edge = 15.85 * scale_y;
+    bottom_edge_gap = 14.2 * scale_y;
+#endif
 
     // right horiz edge top
     lines[(*count)++] = (line_t){{right_pad_inner, top_pad_edge}, {right_pad_outer, top_pad_edge}, 0.1, ""};
