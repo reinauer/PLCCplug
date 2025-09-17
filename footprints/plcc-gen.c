@@ -342,39 +342,19 @@ static void generate_silkscreen_lines(footprint_geometry_t* geom, component_spec
     lines[(*count)++] = (line_t){{1.0, y1}, {x2-1, y2}, 0.12, ""};
     strcpy(lines[*count-1].layer, layer);
 
-    // Calculate dynamic coordinates based on component body dimensions and pad layout
-    double pitch = spec->pitch;
-    double a = spec->body.a;
-    double c = spec->body.c;
-    double d = spec->body.d;
-    double pad_length = (c - d) / 2;
-    double pins_width = spec->pins_x * pitch;
-
-    // These coordinates are designed to outline the pad areas
-    double right_pad_inner = (pins_width - pitch) / 2;  // 13.675 for 84-pin
-    double right_pad_outer = right_pad_inner + 0.5;     // 14.175 for 84-pin
-    double right_edge_outer = (a - pad_length) / 2;     // 15.325 for 84-pin
-    double top_pad_edge = -(c - pad_length) / 2;        // -14.8 for 84-pin
-    double top_edge_inner = top_pad_edge + 1.15;        // -13.65 for 84-pin
-    double top_edge_gap = top_edge_inner + 0.5;         // -13.15 for 84-pin
-    double bottom_pad_edge = (c - pad_length) / 2;      // 14.8 for 84-pin (but code shows 15.85)
-    double bottom_edge_gap = bottom_pad_edge - 1.65;    // 14.2 for 84-pin
-
-#if 1
-    // Actually, let me match the exact original calculations by reverse engineering
-    // Scale coordinates proportionally based on body size relative to 84-pin
+    // Calculate dynamic coordinates by scaling the 84-pin values proportionally
+    // Scale coordinates proportionally based on body size relative to 84-pin APW9328
     double scale_x = spec->body.a / 36.60;  // APW9328 body.a
     double scale_y = spec->body.c / 36.60;  // APW9328 body.c
 
-    right_pad_inner = 13.675 * scale_x;
-    right_pad_outer = 14.175 * scale_x;
-    right_edge_outer = 15.325 * scale_x;
-    top_pad_edge = -14.8 * scale_y;
-    top_edge_inner = -13.65 * scale_y;
-    top_edge_gap = -13.15 * scale_y;
-    bottom_pad_edge = 15.85 * scale_y;
-    bottom_edge_gap = 14.2 * scale_y;
-#endif
+    double right_pad_inner = 13.675 * scale_x;
+    double right_pad_outer = 14.175 * scale_x;
+    double right_edge_outer = 15.325 * scale_x;
+    double top_pad_edge = -14.8 * scale_y;
+    double top_edge_inner = -13.65 * scale_y;
+    double top_edge_gap = -13.15 * scale_y;
+    double bottom_pad_edge = 15.85 * scale_y;
+    double bottom_edge_gap = 14.2 * scale_y;
 
     // right horiz edge top
     lines[(*count)++] = (line_t){{right_pad_inner, top_pad_edge}, {right_pad_outer, top_pad_edge}, 0.1, ""};
@@ -428,26 +408,29 @@ static void generate_courtyard_lines(footprint_geometry_t* geom, component_spec_
 }
 
 static void generate_fabrication_lines(footprint_geometry_t* geom, component_spec_t* spec) {
-    // Copy exact fabrication layer from original kicad_mod_fabrication function
+    // Scale fabrication coordinates proportionally based on body size relative to 84-pin APW9328
     line_t* lines = geom->fab_lines;
     int* count = &geom->fab_count;
 
-    lines[(*count)++] = (line_t){{-18, -17.475}, {17, -17.475}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{18, 18.525}, {-18, 18.525}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{18, -16.475}, {18, 18.525}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{-18, 18.525}, {-18, -17.475}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{17, -17.475}, {18, -16.475}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{-16.73, -16.205}, {16.73, -16.205}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{-16.73, 17.255}, {-16.73, -16.205}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{15.175, 15.7}, {-15.175, 15.7}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{-15.175, 15.7}, {-15.175, -14.65}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{-15.175, -14.65}, {14.175, -14.65}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{15.175, -13.65}, {15.175, 15.7}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{16.73, 17.255}, {-16.73, 17.255}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{0, -16.475}, {-0.5, -17.475}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{0.5, -17.475}, {0, -16.475}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{16.73, -16.205}, {16.73, 17.255}, 0.1, "F.Fab"};
-    lines[(*count)++] = (line_t){{14.175, -14.65}, {15.175, -13.65}, 0.1, "F.Fab"};
+    double scale_x = spec->body.a / 36.60;  // APW9328 body.a
+    double scale_y = spec->body.c / 36.60;  // APW9328 body.c
+
+    lines[(*count)++] = (line_t){{-18 * scale_x, -17.475 * scale_y}, {17 * scale_x, -17.475 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{18 * scale_x, 18.525 * scale_y}, {-18 * scale_x, 18.525 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{18 * scale_x, -16.475 * scale_y}, {18 * scale_x, 18.525 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{-18 * scale_x, 18.525 * scale_y}, {-18 * scale_x, -17.475 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{17 * scale_x, -17.475 * scale_y}, {18 * scale_x, -16.475 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{-16.73 * scale_x, -16.205 * scale_y}, {16.73 * scale_x, -16.205 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{-16.73 * scale_x, 17.255 * scale_y}, {-16.73 * scale_x, -16.205 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{15.175 * scale_x, 15.7 * scale_y}, {-15.175 * scale_x, 15.7 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{-15.175 * scale_x, 15.7 * scale_y}, {-15.175 * scale_x, -14.65 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{-15.175 * scale_x, -14.65 * scale_y}, {14.175 * scale_x, -14.65 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{15.175 * scale_x, -13.65 * scale_y}, {15.175 * scale_x, 15.7 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{16.73 * scale_x, 17.255 * scale_y}, {-16.73 * scale_x, 17.255 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{0, -16.475 * scale_y}, {-0.5 * scale_x, -17.475 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{0.5 * scale_x, -17.475 * scale_y}, {0, -16.475 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{16.73 * scale_x, -16.205 * scale_y}, {16.73 * scale_x, 17.255 * scale_y}, 0.1, "F.Fab"};
+    lines[(*count)++] = (line_t){{14.175 * scale_x, -14.65 * scale_y}, {15.175 * scale_x, -13.65 * scale_y}, 0.1, "F.Fab"};
 }
 
 static void calculate_text_positions(footprint_geometry_t* geom, component_spec_t* spec) {
