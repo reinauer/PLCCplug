@@ -20,6 +20,7 @@
 //     |___________|  h1
 //
 
+use <angled_header.scad>
 
 // distance between 2 pins
 cl = 1.27;
@@ -198,5 +199,16 @@ module plccplug(a,b,c,d,px,py)
                 }
             }
         }
+    }
+    if (!is_undef(render_pins)) {
+        //Customizable angle header
+translate([32.6,16.3,-2.35]) rotate([0,270,0])
+  angle_header(rows=21,cols=1,pitch=1.27);
+translate([16.3,32.6,-2.35]) rotate([90,270,0])
+  angle_header(rows=21,cols=1,pitch=1.27);
+translate([0,16.3,-2.35]) rotate([180,270,0])
+  angle_header(rows=21,cols=1,pitch=1.27);
+translate([16.3,0,-2.35]) rotate([270,270,0])
+  angle_header(rows=21,cols=1,pitch=1.27);
     }
 }
