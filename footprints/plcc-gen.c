@@ -168,6 +168,24 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
             strcpy(pad->layers, "\"*.Cu\" \"*.Mask\"");
         } else {
             strcpy(pad->layers, "\"F.Cu\" \"F.Paste\" \"F.Mask\"");
+
+            // Add via pad if via_outside is enabled for single-sided
+            if (opts->via_outside) {
+                pad_t* via_pad = &geom->pads[geom->pad_count++];
+                via_pad->number = 0; // Via pads don't have pin numbers
+                double ox = (sx > sy) ? (px < 0 ? sx/4 : -sx/4) : 0;
+                double oy = (sx <= sy) ? (py < 0 ? sy/4 : -sy/4) : 0;
+                // For via_outside, we want the via on the opposite side (outside)
+                via_pad->position.x = px - ox;
+                via_pad->position.y = py - oy;
+                via_pad->size.x = 0.6;
+                via_pad->size.y = 0.6;
+                via_pad->type = PAD_THROUGHHOLE;
+                via_pad->drill.diameter = 0.3;
+                via_pad->drill.offset.x = 0;
+                via_pad->drill.offset.y = 0;
+                strcpy(via_pad->layers, "\"*.Cu\" \"*.Mask\"");
+            }
         }
         px += pitch;
     }
@@ -200,6 +218,24 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
             strcpy(pad->layers, "\"*.Cu\" \"*.Mask\"");
         } else {
             strcpy(pad->layers, "\"F.Cu\" \"F.Paste\" \"F.Mask\"");
+
+            // Add via pad if via_outside is enabled for single-sided
+            if (opts->via_outside) {
+                pad_t* via_pad = &geom->pads[geom->pad_count++];
+                via_pad->number = 0; // Via pads don't have pin numbers
+                double ox = (sx > sy) ? (px < 0 ? sx/4 : -sx/4) : 0;
+                double oy = (sx <= sy) ? (py < 0 ? sy/4 : -sy/4) : 0;
+                // For via_outside, we want the via on the opposite side (outside)
+                via_pad->position.x = px - ox;
+                via_pad->position.y = py - oy;
+                via_pad->size.x = 0.6;
+                via_pad->size.y = 0.6;
+                via_pad->type = PAD_THROUGHHOLE;
+                via_pad->drill.diameter = 0.3;
+                via_pad->drill.offset.x = 0;
+                via_pad->drill.offset.y = 0;
+                strcpy(via_pad->layers, "\"*.Cu\" \"*.Mask\"");
+            }
         }
         py += pitch;
     }
@@ -232,6 +268,24 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
             strcpy(pad->layers, "\"*.Cu\" \"*.Mask\"");
         } else {
             strcpy(pad->layers, "\"F.Cu\" \"F.Paste\" \"F.Mask\"");
+
+            // Add via pad if via_outside is enabled for single-sided
+            if (opts->via_outside) {
+                pad_t* via_pad = &geom->pads[geom->pad_count++];
+                via_pad->number = 0; // Via pads don't have pin numbers
+                double ox = (sx > sy) ? (px < 0 ? sx/4 : -sx/4) : 0;
+                double oy = (sx <= sy) ? (py < 0 ? sy/4 : -sy/4) : 0;
+                // For via_outside, we want the via on the opposite side (outside)
+                via_pad->position.x = px - ox;
+                via_pad->position.y = py - oy;
+                via_pad->size.x = 0.6;
+                via_pad->size.y = 0.6;
+                via_pad->type = PAD_THROUGHHOLE;
+                via_pad->drill.diameter = 0.3;
+                via_pad->drill.offset.x = 0;
+                via_pad->drill.offset.y = 0;
+                strcpy(via_pad->layers, "\"*.Cu\" \"*.Mask\"");
+            }
         }
         px -= pitch;
     }
@@ -264,6 +318,24 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
             strcpy(pad->layers, "\"*.Cu\" \"*.Mask\"");
         } else {
             strcpy(pad->layers, "\"F.Cu\" \"F.Paste\" \"F.Mask\"");
+
+            // Add via pad if via_outside is enabled for single-sided
+            if (opts->via_outside) {
+                pad_t* via_pad = &geom->pads[geom->pad_count++];
+                via_pad->number = 0; // Via pads don't have pin numbers
+                double ox = (sx > sy) ? (px < 0 ? sx/4 : -sx/4) : 0;
+                double oy = (sx <= sy) ? (py < 0 ? sy/4 : -sy/4) : 0;
+                // For via_outside, we want the via on the opposite side (outside)
+                via_pad->position.x = px - ox;
+                via_pad->position.y = py - oy;
+                via_pad->size.x = 0.6;
+                via_pad->size.y = 0.6;
+                via_pad->type = PAD_THROUGHHOLE;
+                via_pad->drill.diameter = 0.3;
+                via_pad->drill.offset.x = 0;
+                via_pad->drill.offset.y = 0;
+                strcpy(via_pad->layers, "\"*.Cu\" \"*.Mask\"");
+            }
         }
         py -= pitch;
     }
@@ -296,6 +368,24 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
             strcpy(pad->layers, "\"*.Cu\" \"*.Mask\"");
         } else {
             strcpy(pad->layers, "\"F.Cu\" \"F.Paste\" \"F.Mask\"");
+
+            // Add via pad if via_outside is enabled for single-sided
+            if (opts->via_outside) {
+                pad_t* via_pad = &geom->pads[geom->pad_count++];
+                via_pad->number = 0; // Via pads don't have pin numbers
+                double ox = (sx > sy) ? (px < 0 ? sx/4 : -sx/4) : 0;
+                double oy = (sx <= sy) ? (py < 0 ? sy/4 : -sy/4) : 0;
+                // For via_outside, we want the via on the opposite side (outside)
+                via_pad->position.x = px - ox;
+                via_pad->position.y = py - oy;
+                via_pad->size.x = 0.6;
+                via_pad->size.y = 0.6;
+                via_pad->type = PAD_THROUGHHOLE;
+                via_pad->drill.diameter = 0.3;
+                via_pad->drill.offset.x = 0;
+                via_pad->drill.offset.y = 0;
+                strcpy(via_pad->layers, "\"*.Cu\" \"*.Mask\"");
+            }
         }
         px += pitch;
     }
@@ -484,7 +574,14 @@ static void write_kicad_line(FILE* f, line_t* line, footprint_options_t* opts) {
 }
 
 static void write_kicad_pad(FILE* f, pad_t* pad, footprint_options_t* opts) {
-    if (pad->type == PAD_THROUGHHOLE) {
+    if (pad->number == 0) {
+        // Via pad (no pin number)
+        fprintf(f, "  (pad \"\" thru_hole circle (at %.3f %.3f) (size %.3f %.3f) ",
+                pad->position.x, pad->position.y, pad->size.x, pad->size.y);
+        fprintf(f, "(drill %.1f) ",
+                pad->drill.diameter);
+        fprintf(f, "(layers %s) ", pad->layers);
+    } else if (pad->type == PAD_THROUGHHOLE) {
         fprintf(f, "  (pad \"%d\" thru_hole rect (at %.3f %.3f) (locked) (size %.3f %.3f) ",
                 pad->number, pad->position.x, pad->position.y, pad->size.x, pad->size.y);
         fprintf(f, "(drill %.1f (offset %.3f %.3f)) ",
@@ -552,8 +649,7 @@ static void print_usage(const char *prog_name) {
     printf("  -o, --outfile FILE     Output file (default: stdout)\n");
     printf("  -d, --double-sided     Use double-sided pads with vias (default: enabled)\n");
     printf("  -s, --single-sided     Use single-sided SMD pads only\n");
-    printf("  -v, --via-outside      Place vias outside the footprint (default: enabled)\n");
-    printf("  --via-inside           Place vias inside the footprint\n");
+    printf("  -v, --via-outside      Add vias on the outside of the footprint (default: inside)\n");
     printf("  -h, --help            Show this help message\n");
 }
 
@@ -566,7 +662,7 @@ int main(int argc, char *argv[]) {
 
     footprint_options_t opts = {
         .double_sided = 1,
-        .via_outside = 1,
+        .via_outside = 0,
         .timestamp = {0}
     };
 
@@ -578,12 +674,11 @@ int main(int argc, char *argv[]) {
         {"double-sided", no_argument, 0, 'd'},
         {"single-sided", no_argument, 0, 's'},
         {"via-outside", no_argument, 0, 'v'},
-        {"via-inside", no_argument, 0, 'V'},
         {"help", no_argument, 0, 'h'},
         {0, 0, 0, 0}
     };
 
-    while ((opt = getopt_long(argc, argv, "p:o:dsvVh", long_options, NULL)) != -1) {
+    while ((opt = getopt_long(argc, argv, "p:o:dsvh", long_options, NULL)) != -1) {
         switch (opt) {
         case 'p':
             pins = atoi(optarg);
@@ -600,9 +695,6 @@ int main(int argc, char *argv[]) {
             break;
         case 'v':
             opts.via_outside = 1;
-            break;
-        case 'V':
-            opts.via_outside = 0;
             break;
         case 'h':
             print_usage(argv[0]);
