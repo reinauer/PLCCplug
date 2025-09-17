@@ -201,14 +201,18 @@ module plccplug(a,b,c,d,px,py)
         }
     }
     if (!is_undef(render_pins)) {
-        //Customizable angle header
-translate([32.6,16.3,-2.35]) rotate([0,270,0])
-  angle_header(rows=21,cols=1,pitch=1.27);
-translate([16.3,32.6,-2.35]) rotate([90,270,0])
-  angle_header(rows=21,cols=1,pitch=1.27);
-translate([0,16.3,-2.35]) rotate([180,270,0])
-  angle_header(rows=21,cols=1,pitch=1.27);
-translate([16.3,0,-2.35]) rotate([270,270,0])
-  angle_header(rows=21,cols=1,pitch=1.27);
+        //Customizable angle header based on plug dimensions
+        // Right header (vertical pins)
+        translate([c - 0.2, d/2 - 0.1, -2.35]) rotate([0,270,0])
+          angle_header(rows=py, cols=1, pitch=1.27);
+        // Top header (horizontal pins)
+        translate([c/2 - 0.1, d - 0.2, -2.35]) rotate([90,270,0])
+          angle_header(rows=px, cols=1, pitch=1.27);
+        // Left header (vertical pins)
+        translate([0, d/2 - 0.1, -2.35]) rotate([180,270,0])
+          angle_header(rows=py, cols=1, pitch=1.27);
+        // Bottom header (horizontal pins)
+        translate([c/2 - 0.1, 0, -2.35]) rotate([270,270,0])
+          angle_header(rows=px, cols=1, pitch=1.27);
     }
 }
