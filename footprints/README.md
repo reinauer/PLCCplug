@@ -1,6 +1,6 @@
 # PLCC Footprint Generator
 
-This directory contains a C program (`apw.c`) that generates KiCAD footprints for Adapters-Plus APW932x series PLCC (Plastic Leaded Chip Carrier) plugs.
+This directory contains a C program (`plcc-gen.c`) that generates KiCAD footprints for Adapters-Plus APW932x series PLCC (Plastic Leaded Chip Carrier) plugs.
 
 ## Supported Components
 
@@ -31,14 +31,14 @@ Follows PLCC standard with pin 1 located at the center of the top edge (marked w
 
 ## Usage
 
-1. Compile: `gcc -o apw apw.c`
-2. Run: `./apw -p PINS [-o output_file]`
+1. Compile: `gcc -o plcc-gen plcc-gen.c`
+2. Run: `./plcc-gen -p PINS [-o output_file]`
 
 Where PINS is the number of pins (20, 28, 32, 44, 52, 68, or 84).
 
 Examples:
-- `./apw -p 84 > APW9328.kicad_mod`
-- `./apw --pins 68 --outfile APW9327.kicad_mod`
+- `./plcc-gen -p 84 > APW9328.kicad_mod`
+- `./plcc-gen --pins 68 --outfile APW9327.kicad_mod`
 
 ## Configuration Options
 
