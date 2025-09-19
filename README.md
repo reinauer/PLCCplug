@@ -1,10 +1,9 @@
 # PLCC plug
 
-A parametric PLCC plug adapter created in OpenSCAD
+A parametric PLCC plug adapter created in OpenSCAD.
 
 ***
-Note: Only the 84pin PLCC plug has been tested so far. Please report
-your experience, send patches, pictures etc.
+Please tell me about the use cases of this project.
 ***
 
 <br />
@@ -12,6 +11,10 @@ your experience, send patches, pictures etc.
 <img src="images/plccplug84.jpg" width="512" height="512">
 </a>
 <br />
+
+This project includes
+* STL files for 3D printing your own PLCC plugs
+* Footprints and 3D models for KiCAD
 
 ## Prerequisites
 
@@ -49,6 +52,20 @@ Black resin print
 <br />
 Nylon print
 <br />
+
+## KiCad
+
+Copy PLCCplug.pretty and PLCCplug.3dshapes to your project and add
+PLCCplug.pretty as a project local footprint library.
+
+<br />
+<a href="images/KiCad.png">
+<img src="images/KiCad.png" width="512" height="423">
+</a>
+<br />
+Sample KiCad rendering of PLCC plug in 68pin version
+<br />
+
 
 ## Fitting
 
