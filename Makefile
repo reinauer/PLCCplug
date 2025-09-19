@@ -21,20 +21,16 @@ footprint:
 	make -C footprints
 
 $(STLDIR)/PLCCplug_all_versions.stl: plccplug.scad
-	$(OPENSCAD) $< -o $@
+	$(OPENSCAD) -D scale_factor=1 $< -o $@
 
 $(VRMLDIR)/PLCCplug_all_versions.wrl: plccplug.scad
-	$(OPENSCAD) -Drender_pins=1 $< -o $@
+	$(OPENSCAD) -Drender_pins=1 -D scale_factor=0.3937 $< -o $@
 
 $(STLDIR)/PLCCplug-%pin.stl: plccplug.scad
-	$(OPENSCAD) -D output_pins=$(patsubst %pin,%,$*) $< -o $@
-
-#	$(OPENSCAD) -D output_pins=$(@:$(STLDIR)/PLCCplug-%pin.stl=%) $< -o $@
+	$(OPENSCAD) -D output_pins=$(patsubst %pin,%,$*) -D scale_factor=1 $< -o $@
 
 $(VRMLDIR)/PLCCplug-%pin.wrl: plccplug.scad
-	$(OPENSCAD) -D output_pins=$(patsubst %pin,%,$*) -Drender_pins=1 $< -o $@
-
-#	$(OPENSCAD) -D output_pins=$(@:$(VRMLDIR)/PLCCplug-%pin.wrl=%) -Drender_pins=1 $< -o $@
+	$(OPENSCAD) -D output_pins=$(patsubst %pin,%,$*) -Drender_pins=1 -D scale_factor=0.3937 $< -o $@
 
 clean:
 	rm -f $(STLDIR)/PLCCplug-??pin.stl $(STLDIR)/PLCCplug_all_versions.stl $(VRMLDIR)/PLCCplug-??pin.wrl $(VRMLDIR)/PLCCplug_all_versions.wrl
