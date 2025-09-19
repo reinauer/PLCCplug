@@ -99,8 +99,8 @@
   (pad "31" smd rect (at -0.000 -8.375) (locked) (size 0.900 3.150) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 00000000-0000-0000-0000-000000000000))
   (pad "32" smd rect (at 1.270 -8.375) (locked) (size 0.900 3.150) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 00000000-0000-0000-0000-000000000000))
 (model "${KIPRJMOD}/PLCCplug.3dshapes/PLCCplug-32pin.wrl"
-    (offset (xyz 0 0 0))
+    (offset (xyz 7.2 -8.40 2.5))
     (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 0))
+    (rotate (xyz -0 -0 -90))
   )
 )

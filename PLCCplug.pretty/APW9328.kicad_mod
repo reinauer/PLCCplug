@@ -151,8 +151,8 @@
   (pad "83" thru_hole rect (at -2.540 -14.887) (locked) (size 0.900 4.550) (drill 0.3 (offset -0.000 -1.138)) (layers "*.Cu" "*.Mask") (tstamp 00000000-0000-0000-0000-000000000000))
   (pad "84" thru_hole rect (at -1.270 -14.887) (locked) (size 0.900 4.550) (drill 0.3 (offset -0.000 -1.138)) (layers "*.Cu" "*.Mask") (tstamp 00000000-0000-0000-0000-000000000000))
 (model "${KIPRJMOD}/PLCCplug.3dshapes/PLCCplug-84pin.wrl"
-    (offset (xyz 0 0 0))
+    (offset (xyz 16.4 -16.35 2.5))
     (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 0))
+    (rotate (xyz -0 -0 -90))
   )
 )

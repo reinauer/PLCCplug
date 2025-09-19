@@ -55,6 +55,7 @@ typedef struct {
     double pitch;
     dimensions_t body;
     double pad_width;
+    double offset_x, offset_y; 
 } component_spec_t;
 
 typedef struct {
@@ -80,13 +81,13 @@ typedef struct {
 // ============================================================================
 
 static component_spec_t component_specs[] = {
-    {"APW9322",  20,  5,  5, 1.27, {15.00,  8.70, 15.00,  8.70}, 0.9},
-    {"APW9323",  28,  7,  7, 1.27, {17.40, 11.15, 17.40, 11.15}, 0.9},
-    {"APW9324",  32,  7,  9, 1.27, {17.40, 11.15, 19.90, 13.60}, 0.9},
-    {"APW9325",  44, 11, 11, 1.27, {22.50, 16.40, 22.50, 16.40}, 0.9},
-    {"APW9326",  52, 13, 13, 1.27, {25.10, 18.90, 25.10, 18.90}, 0.9},
-    {"APW9327",  68, 17, 17, 1.27, {30.10, 23.90, 30.10, 23.90}, 0.9},
-    {"APW9328",  84, 21, 21, 1.27, {36.60, 27.50, 36.60, 27.50}, 0.9},
+    {"APW9322",  20,  5,  5, 1.27, {15.00,  8.70, 15.00,  8.70}, 0.9,  6.05,  -6.05},
+    {"APW9323",  28,  7,  7, 1.27, {17.40, 11.15, 17.40, 11.15}, 0.9,  7.25,  -7.25},
+    {"APW9324",  32,  7,  9, 1.27, {17.40, 11.15, 19.90, 13.60}, 0.9,  7.25,  -8.40},
+    {"APW9325",  44, 11, 11, 1.27, {22.50, 16.40, 22.50, 16.40}, 0.9,  9.90,  -9.90},
+    {"APW9326",  52, 13, 13, 1.27, {25.10, 18.90, 25.10, 18.90}, 0.9, 11.10, -11.10},
+    {"APW9327",  68, 17, 17, 1.27, {30.10, 23.90, 30.10, 23.90}, 0.9, 13.60, -13.60},
+    {"APW9328",  84, 21, 21, 1.27, {36.60, 27.50, 36.60, 27.50}, 0.9, 16.35, -16.35},
 };
 
 static int num_component_specs = sizeof(component_specs) / sizeof(component_specs[0]);
@@ -597,9 +598,9 @@ static void write_kicad_pad(FILE* f, pad_t* pad, footprint_options_t* opts) {
 
 static void write_kicad_model(FILE* f, component_spec_t* spec) {
     fprintf(f, "(model \"${KIPRJMOD}/PLCCplug.3dshapes/PLCCplug-%dpin.wrl\"\n", spec->pins);
-    fprintf(f, "    (offset (xyz 0 0 0))\n");
+    fprintf(f, "    (offset (xyz %.1f %.2f 2.5))\n", spec->offset_x, spec->offset_y);
     fprintf(f, "    (scale (xyz 1 1 1))\n");
-    fprintf(f, "    (rotate (xyz 0 0 0))\n");
+    fprintf(f, "    (rotate (xyz -0 -0 -90))\n");
     fprintf(f, "  )\n");
 }
 
