@@ -596,7 +596,7 @@ static void write_kicad_pad(FILE* f, pad_t* pad, footprint_options_t* opts) {
 }
 
 static void write_kicad_model(FILE* f, component_spec_t* spec) {
-    fprintf(f, "(model \"${KISYS3DMOD}/Package_LCC.3dshapes/PLCC-%d_SMD-Socket.wrl\"\n", spec->pins);
+    fprintf(f, "(model \"${KIPRJMOD}/PLCCplug.3dshapes/PLCCplug-%dpin.wrl\"\n", spec->pins);
     fprintf(f, "    (offset (xyz 0 0 0))\n");
     fprintf(f, "    (scale (xyz 1 1 1))\n");
     fprintf(f, "    (rotate (xyz 0 0 0))\n");
