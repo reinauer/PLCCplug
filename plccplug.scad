@@ -20,7 +20,7 @@
 //     |___________|  h1
 //
 
-use <angled_header.scad>
+use <angle_header.scad>
 
 // distance between 2 pins
 cl = 1.27;

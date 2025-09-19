@@ -1,4 +1,7 @@
 //Customizable angle header
+// by karfes - https://www.thingiverse.com/karfes/designs
+// licensed under the Creative Commons - Attribution license.
+
 translate([32.6,16.3,-2.35]) rotate([0,270,0])
   angle_header(rows=21,cols=1,pitch=1.27);
 translate([16.3,32.6,-2.35]) rotate([90,270,0])
