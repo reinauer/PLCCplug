@@ -23,7 +23,7 @@
 use <angle_header.scad>
 
 // distance between 2 pins
-cl = 1.27;
+pin_pitch = 1.27;
 // height of the bottom plate / plug
 h1 = 4.3; // 4.45;
 // height of the top plate
@@ -43,7 +43,9 @@ edge_bottom = 1.5;
 clumsy_printer = 1;
 
 /* test build all */
-
+if (is_undef(scale_factor)) {
+    scale_factor=1;
+}
 if (is_undef(output_pins)) {
   scale([scale_factor, scale_factor, scale_factor]) {
     translate([0,0,0]) plug(20);
@@ -173,31 +175,36 @@ module plccplug(a,b,c,d,px,py)
 
         color("grey") translate([dx,dy,0])  {
             /* pin holes */
-            y_shift = pinwidth + (a - (px * cl)) / 2;
+            // x and y shift calculation - determines the pin array origin
+            // side length of plug - pin pitch * number of gaps between pins
+            // divided by two
+
+            x_shift = (a-(px-1)*pin_pitch)/2;
+            y_shift = (b-(py-1)*pin_pitch)/2;
+
             // recess pins slightly
             recess = pinwidth/2;
 
             for( col  = [0: py-1 ] ) {
-                translate( [-recess, y_shift + (cl * col), 0] ) {
+                translate( [-recess, y_shift - recess + (pin_pitch * col), 0] ) {
                     pin();
                 }
             }
 
             for( col  = [0: py-1 ] ) {
-                translate( [a-pinwidth+recess, y_shift + (cl * col), 0] ) {
-                    pin();
-                }
-            }
-
-            x_shift = pinwidth + (b - (py * cl)) / 2;
-            for( row  = [0: px-1 ] ) {
-                translate( [x_shift + (cl * row), -recess, 0] ) {
+                translate( [a-pinwidth+recess, y_shift - recess + (pin_pitch * col), 0] ) {
                     pin();
                 }
             }
 
             for( row  = [0: px-1 ] ) {
-                translate( [x_shift + (cl * row), b-pinwidth+recess, 0]) {
+                translate( [x_shift -recess + (pin_pitch * row), -recess, 0] ) {
+                    pin();
+                }
+            }
+
+            for( row  = [0: px-1 ] ) {
+                translate( [x_shift - recess + (pin_pitch * row), b-pinwidth+recess, 0]) {
                     pin();
                 }
             }
