@@ -136,7 +136,7 @@ static void calculate_pin_positions(footprint_geometry_t* geom, component_spec_t
     cp[4] = cp[3] + 1;
     cp[5] = cp[4] + (spec->pins_x - 1);
     cp[6] = cp[5] + 1;
-    cp[7] = cp[6] + (spec->pins_x - 1);
+    cp[7] = cp[6] + (spec->pins_y - 1);
     cp[8] = cp[7] + 1;
     cp[9] = spec->pins;
 
