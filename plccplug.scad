@@ -121,7 +121,7 @@ module plccplug(a,b,c,d,px,py)
 
     difference()
     {
-        color("lavender") {
+        color("grey") {
             // bottom plate (plug)
             translate([dx,dy,h2]) {
                 difference() {
@@ -134,9 +134,9 @@ module plccplug(a,b,c,d,px,py)
                         cube ([a - 2*thickness, b - 2*thickness, h1]);
                     // little notches on the hillside
                     translate([0.8,b*0.43,h1-0.2])
-                        color("red") cube([a-1.6,b*0.14,0.2]);
+                        cube([a-1.6,b*0.14,0.2]);
                     translate([a*0.43,0.8,h1-0.2])
-                        color("red") cube([a*0.14,b-1.6,0.2]);
+                        cube([a*0.14,b-1.6,0.2]);
                 }
             }
 
@@ -153,47 +153,47 @@ module plccplug(a,b,c,d,px,py)
                     if (airgaps) {
                         // 2/4
                         translate([c*0.25,thickness+dy,0])
-                            color("red") cube([c/2,airgaps,h2]);
+                            cube([c/2,airgaps,h2]);
                         // 4/4
                         translate([c*0.25,d-(thickness+dy+airgaps),0])
-                            color("red") cube([c/2,airgaps,h2]);
+                            cube([c/2,airgaps,h2]);
                         // 3/4
                         translate([dx + thickness,d*0.25,0])
-                            color("red") cube([airgaps,d/2,h2]);
+                            cube([airgaps,d/2,h2]);
                         // 1/4 (Pin 1-)
                         translate([dx + a - thickness - airgaps,d*0.25,0])
-                            color("red") cube([airgaps,d/2,h2]);
+                            cube([airgaps,d/2,h2]);
                     }
                 }
             }
         }
 
-        translate([dx,dy,0])  {
+        color("grey") translate([dx,dy,0])  {
             /* pin holes */
             y_shift = pinwidth + (a - (px * cl)) / 2;
             // recess pins slightly
             recess = pinwidth/2;
 
-            color("purple") for( col  = [0: py-1 ] ) {
+            for( col  = [0: py-1 ] ) {
                 translate( [-recess, y_shift + (cl * col), 0] ) {
                     pin();
                 }
             }
 
-            color("green") for( col  = [0: py-1 ] ) {
+            for( col  = [0: py-1 ] ) {
                 translate( [a-pinwidth+recess, y_shift + (cl * col), 0] ) {
                     pin();
                 }
             }
 
             x_shift = pinwidth + (b - (py * cl)) / 2;
-            color("blue") for( row  = [0: px-1 ] ) {
+            for( row  = [0: px-1 ] ) {
                 translate( [x_shift + (cl * row), -recess, 0] ) {
                     pin();
                 }
             }
 
-            color ("yellow") for( row  = [0: px-1 ] ) {
+            for( row  = [0: px-1 ] ) {
                 translate( [x_shift + (cl * row), b-pinwidth+recess, 0]) {
                     pin();
                 }
@@ -203,16 +203,16 @@ module plccplug(a,b,c,d,px,py)
     if (!is_undef(render_pins)) {
         //Customizable angle header based on plug dimensions
         // Right header (vertical pins)
-        translate([c - 0.2, d/2 - 0.1, -2.35]) rotate([0,270,0])
+        translate([c - 0.4, d/2 - 0.025, -2.35]) rotate([0,270,0])
           angle_header(rows=py, cols=1, pitch=1.27);
         // Top header (horizontal pins)
-        translate([c/2 - 0.1, d - 0.2, -2.35]) rotate([90,270,0])
+        translate([c/2 - 0.025, d - 0.4, -2.35]) rotate([90,270,0])
           angle_header(rows=px, cols=1, pitch=1.27);
         // Left header (vertical pins)
-        translate([0, d/2 - 0.1, -2.35]) rotate([180,270,0])
+        translate([0.4, d/2 - 0.025, -2.35]) rotate([180,270,0])
           angle_header(rows=py, cols=1, pitch=1.27);
         // Bottom header (horizontal pins)
-        translate([c/2 - 0.1, 0, -2.35]) rotate([270,270,0])
+        translate([c/2 - 0.025, 0.4, -2.35]) rotate([270,270,0])
           angle_header(rows=px, cols=1, pitch=1.27);
     }
 }
