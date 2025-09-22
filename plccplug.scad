@@ -104,6 +104,9 @@ module pin()
 
     translate([0,0,h2])
       cube([pinwidth,pinwidth,h1]);
+
+    translate([pinwidth/2,pinwidth/2,0])
+      cylinder(h = h2, r1 = pin_pitch/2, r2 = 0, $fn = 64);
 }
 
 // Render a PLCC plug
